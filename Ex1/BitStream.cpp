@@ -27,7 +27,6 @@ int BitStream::readBit(){
 int BitStream::readNBits(int bits){
     int number = 0;
     for(int i=0; i<bits; i++){
-        std::cout << number << " ";
         number = (number << 1) | (readBit()&1);
     }
     return number;
