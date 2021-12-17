@@ -40,15 +40,14 @@ u_int32_t Golomb::decode(){
     double log = log2(this->m);
     int b = ceil(log);
     int res = pow(2,b)-m;
-    for (int i = 0; i < res; i++)
+    for (int i = 0; i < b; i++)
     {
         a = a + std::to_string(bs.readBit());
     }
-    std::cout << a;
+    std::cout << a<<"\n";
 
     int result = stoi(a);
     bs.close();
-    return 77;
+    return result;
 
-    
 }
