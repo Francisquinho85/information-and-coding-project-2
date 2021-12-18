@@ -1,6 +1,6 @@
 #include <math.h> 
 #include "Golomb.hpp"
-#include "../Ex1/BitStream.cpp"
+#include "BitStream.cpp"
 #include <iostream>
 #include <string> 
 using namespace std;

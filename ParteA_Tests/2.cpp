@@ -1,4 +1,4 @@
-#include "../Ex1/BitStream.hpp"
+#include "../ParteA_Classes/BitStream.hpp"
 
 int main(int argc, char** argv) {
     BitStream bs(argv[1],'w');

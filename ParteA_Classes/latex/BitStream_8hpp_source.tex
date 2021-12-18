@@ -1,0 +1,29 @@
+\hypertarget{BitStream_8hpp_source}{}\doxysection{Bit\+Stream.\+hpp}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{BitStream_8hpp_source_l00001}00001 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{\Hypertarget{BitStream_8hpp_source_l00002}00002 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{\Hypertarget{BitStream_8hpp_source_l00003}00003 }
+\DoxyCodeLine{\Hypertarget{BitStream_8hpp_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{BitStream_8hpp_source_l00014}\mbox{\hyperlink{classBitStream}{00014}} \textcolor{keyword}{class }\mbox{\hyperlink{classBitStream}{BitStream}}\{}
+\DoxyCodeLine{\Hypertarget{BitStream_8hpp_source_l00015}00015     \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{BitStream_8hpp_source_l00019}00019         \mbox{\hyperlink{classBitStream_aa661feaba3f62241adba18f088d18768}{BitStream}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* fileName, \textcolor{keywordtype}{char} m);}
+\DoxyCodeLine{\Hypertarget{BitStream_8hpp_source_l00020}00020 }
+\DoxyCodeLine{\Hypertarget{BitStream_8hpp_source_l00023}00023         \textcolor{keywordtype}{int} \mbox{\hyperlink{classBitStream_a4bebf59fe9379dbdefb4647fdd2ddf01}{readBit}}();}
+\DoxyCodeLine{\Hypertarget{BitStream_8hpp_source_l00024}00024 }
+\DoxyCodeLine{\Hypertarget{BitStream_8hpp_source_l00028}00028         \textcolor{keywordtype}{int} \mbox{\hyperlink{classBitStream_aef4ce9414e524291829dcdee3a190dc3}{readNBits}}(\textcolor{keywordtype}{int} bits);}
+\DoxyCodeLine{\Hypertarget{BitStream_8hpp_source_l00029}00029 }
+\DoxyCodeLine{\Hypertarget{BitStream_8hpp_source_l00032}00032         \textcolor{keywordtype}{void} \mbox{\hyperlink{classBitStream_ab1f6d2e459905791259b83160ecc6d37}{writeBit}}(\textcolor{keywordtype}{bool} bit);}
+\DoxyCodeLine{\Hypertarget{BitStream_8hpp_source_l00033}00033 }
+\DoxyCodeLine{\Hypertarget{BitStream_8hpp_source_l00037}00037         \textcolor{keywordtype}{void} \mbox{\hyperlink{classBitStream_a9e51f289287640fff35a56bb605aaa1a}{writeNBits}}(\textcolor{keywordtype}{int} number,\textcolor{keywordtype}{int} bits);}
+\DoxyCodeLine{\Hypertarget{BitStream_8hpp_source_l00038}00038 }
+\DoxyCodeLine{\Hypertarget{BitStream_8hpp_source_l00040}00040         \textcolor{keywordtype}{void} \mbox{\hyperlink{classBitStream_a17a01273ccc12e3c0a1045a010736a8e}{close}}();}
+\DoxyCodeLine{\Hypertarget{BitStream_8hpp_source_l00041}00041     }
+\DoxyCodeLine{\Hypertarget{BitStream_8hpp_source_l00042}00042     \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{BitStream_8hpp_source_l00044}00044         \textcolor{keywordtype}{char} buf;}
+\DoxyCodeLine{\Hypertarget{BitStream_8hpp_source_l00046}00046         \textcolor{keywordtype}{int} pos;}
+\DoxyCodeLine{\Hypertarget{BitStream_8hpp_source_l00048}00048         \textcolor{keywordtype}{char} mode;}
+\DoxyCodeLine{\Hypertarget{BitStream_8hpp_source_l00050}00050         std::fstream file; }
+\DoxyCodeLine{\Hypertarget{BitStream_8hpp_source_l00051}00051 \};}
+
+\end{DoxyCode}

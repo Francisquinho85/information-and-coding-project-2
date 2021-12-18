@@ -1,8 +1,8 @@
 #include <iostream>
 #include <fstream>
-#include "Golomb.hpp"
+#include "../ParteA_Classes/Golomb.hpp"
 #include <inttypes.h>
-#include "../Ex1/BitStream.hpp"
+#include "../ParteA_Classes/BitStream.hpp"
 
 
 int main(int argc,char** argv){

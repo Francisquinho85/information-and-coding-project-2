@@ -1,0 +1,29 @@
+\hypertarget{2_8cpp_source}{}\doxysection{2.cpp}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{2_8cpp_source_l00001}00001 \textcolor{preprocessor}{\#include "{}../Ex1/BitStream.hpp"{}}}
+\DoxyCodeLine{\Hypertarget{2_8cpp_source_l00002}00002 }
+\DoxyCodeLine{\Hypertarget{2_8cpp_source_l00003}00003 \textcolor{keywordtype}{int} main(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char}** argv) \{}
+\DoxyCodeLine{\Hypertarget{2_8cpp_source_l00004}00004     \mbox{\hyperlink{classBitStream}{BitStream}} bs(argv[1],\textcolor{charliteral}{'w'});}
+\DoxyCodeLine{\Hypertarget{2_8cpp_source_l00005}00005 }
+\DoxyCodeLine{\Hypertarget{2_8cpp_source_l00006}00006     bs.writeNBits(100,8);}
+\DoxyCodeLine{\Hypertarget{2_8cpp_source_l00007}00007 }
+\DoxyCodeLine{\Hypertarget{2_8cpp_source_l00008}00008     \textcolor{comment}{/* bs.writeBit(0);}}
+\DoxyCodeLine{\Hypertarget{2_8cpp_source_l00009}00009 \textcolor{comment}{    bs.writeBit(1);}}
+\DoxyCodeLine{\Hypertarget{2_8cpp_source_l00010}00010 \textcolor{comment}{    bs.writeBit(1);}}
+\DoxyCodeLine{\Hypertarget{2_8cpp_source_l00011}00011 \textcolor{comment}{    bs.writeBit(0);}}
+\DoxyCodeLine{\Hypertarget{2_8cpp_source_l00012}00012 \textcolor{comment}{    bs.writeBit(0);}}
+\DoxyCodeLine{\Hypertarget{2_8cpp_source_l00013}00013 \textcolor{comment}{    bs.writeBit(1);}}
+\DoxyCodeLine{\Hypertarget{2_8cpp_source_l00014}00014 \textcolor{comment}{    bs.writeBit(1);}}
+\DoxyCodeLine{\Hypertarget{2_8cpp_source_l00015}00015 \textcolor{comment}{    bs.writeBit(1);}}
+\DoxyCodeLine{\Hypertarget{2_8cpp_source_l00016}00016 \textcolor{comment}{    bs.writeBit(1); */}}
+\DoxyCodeLine{\Hypertarget{2_8cpp_source_l00017}00017     bs.close();}
+\DoxyCodeLine{\Hypertarget{2_8cpp_source_l00018}00018 }
+\DoxyCodeLine{\Hypertarget{2_8cpp_source_l00019}00019     \mbox{\hyperlink{classBitStream}{BitStream}} bs2(argv[1],\textcolor{charliteral}{'r'});}
+\DoxyCodeLine{\Hypertarget{2_8cpp_source_l00020}00020     std::cout << bs2.readNBits(8);}
+\DoxyCodeLine{\Hypertarget{2_8cpp_source_l00021}00021     bs2.close();}
+\DoxyCodeLine{\Hypertarget{2_8cpp_source_l00022}00022 }
+\DoxyCodeLine{\Hypertarget{2_8cpp_source_l00023}00023     }
+\DoxyCodeLine{\Hypertarget{2_8cpp_source_l00024}00024 \}}
+
+\end{DoxyCode}
