@@ -10,8 +10,11 @@ Golomb::Golomb(int m,char* filename){
     this->m = m;
 }
 
-void Golomb::encode(int n){
-    
+void Golomb::encode(int sn){
+    int n = 0;
+    if(sn < 0) n = (2*abs(sn)-1);
+    else n = 2*sn;
+
     int q = n/(this->m);
     //this->q = q;
     int r = n-q*(this->m);
@@ -49,7 +52,12 @@ int Golomb::decode(){
         res = (res << 1) | bs.readBit();
     }
     bs.close();
-    if (res < aux) return q*m+res;
-    else  res = (res << 1) | bs.readBit();
-    return (q * m) + (res - aux);
+    int n = 0;
+    if (res < aux) n = q*m+res;
+    else { 
+        res = (res << 1) | bs.readBit();
+        n = (q * m) + (res - aux);
+    }
+    if(n%2==0)return n/2;
+    return -((n/2)+1);
 }
