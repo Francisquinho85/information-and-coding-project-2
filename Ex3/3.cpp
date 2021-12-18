@@ -6,12 +6,11 @@
 
 
 int main(int argc,char** argv){
-    uint8_t t = 28;
+    int t = -8;
     printf("t = %d\n",t);
-    Golomb g(6,argv[1]);
+    Golomb g(5,argv[1]);
+
     g.encode(t);
-    printf("r = %d\n",g.r);
-    printf("q = %d\n",g.q);
     t = g.decode();
     printf("%" PRIu8 "\n",t);
     printf("----------------------\n");
