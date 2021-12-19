@@ -6,7 +6,7 @@
 
 
 int main(int argc,char** argv){
-    int t = 15;
+    int t = 19;
     printf("t = %d\n",t);
     Golomb g(6,argv[1]);
 

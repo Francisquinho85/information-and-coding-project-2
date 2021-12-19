@@ -9,7 +9,7 @@
 \item 
 \mbox{\hyperlink{classGolomb_ae01ae12e02531b155bba5099d3af6cd9}{Golomb}} (int \mbox{\hyperlink{classGolomb_aea433fe3049440988ad1fa1a5eb536a3}{m}}, char $\ast$\mbox{\hyperlink{classGolomb_a2db599aefec6933ee4ed768453d1088d}{filename}})
 \item 
-void \mbox{\hyperlink{classGolomb_ac23190a357af7db62de1f4a213c6ce36}{encode}} (int n)
+void \mbox{\hyperlink{classGolomb_a510c3b0db9c23cc0caa654f54cabeda7}{encode}} (int sn)
 \item 
 int \mbox{\hyperlink{classGolomb_abfc8d58261fc9bcc5d5e2559aed4a288}{decode}} ()
 \end{DoxyCompactItemize}
@@ -17,19 +17,21 @@ int \mbox{\hyperlink{classGolomb_abfc8d58261fc9bcc5d5e2559aed4a288}{decode}} ()
 \begin{DoxyCompactItemize}
 \item 
 int \mbox{\hyperlink{classGolomb_aea433fe3049440988ad1fa1a5eb536a3}{m}}
-\begin{DoxyCompactList}\small\item\em Atribute detail. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em An integer parameter, m \texorpdfstring{$>$}{>} 0. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{classGolomb_ac76499a5813a4ebc6427b6f54e45f777}{q}}
-\begin{DoxyCompactList}\small\item\em Atribute detail. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em The quotient, q, can have the values 0, 1, 2, . . . , and is represented by unary code. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{classGolomb_a172404aade8b16da4ff3fbcde825e567}{r}}
-\begin{DoxyCompactList}\small\item\em Atribute detail. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em The remainder of the division, r, can have the values 0, 1, 2, . . . , m−1, and is represented by binary code. \end{DoxyCompactList}\item 
 char $\ast$ \mbox{\hyperlink{classGolomb_a2db599aefec6933ee4ed768453d1088d}{filename}}
-\begin{DoxyCompactList}\small\item\em Atribute detail. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Name of the file to be read or written where the bits are stored. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
-This is the brief description for this class.
+Implemention of \mbox{\hyperlink{classGolomb}{Golomb}} Code.
 
-This is the detailed description. More stuff here. \hypertarget{classGolomb_autotoc_md1}{}\doxyparagraph{Example}\label{classGolomb_autotoc_md1}
+\mbox{\hyperlink{classGolomb}{Golomb}} coding is a lossless data compression method using a family of data compression codes. It relies on separating an integer into two parts\+:
+
+One of those parts is represented by a unary code. The other part is represented using a binary code. \hypertarget{classGolomb_autotoc_md1}{}\doxyparagraph{Example}\label{classGolomb_autotoc_md1}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\textcolor{keywordtype}{int} x = 2;}
@@ -39,7 +41,7 @@ This is the detailed description. More stuff here. \hypertarget{classGolomb_auto
 \end{DoxyCode}
  
 
-Definition at line \mbox{\hyperlink{Golomb_8hpp_source_l00012}{12}} of file \mbox{\hyperlink{Golomb_8hpp_source}{Golomb.\+hpp}}.
+Definition at line \mbox{\hyperlink{Golomb_8hpp_source_l00015}{15}} of file \mbox{\hyperlink{Golomb_8hpp_source}{Golomb.\+hpp}}.
 
 
 
@@ -50,11 +52,11 @@ Definition at line \mbox{\hyperlink{Golomb_8hpp_source_l00012}{12}} of file \mbo
 \doxysubsubsection{\texorpdfstring{Golomb()}{Golomb()}}
 {\footnotesize\ttfamily Golomb\+::\+Golomb (\begin{DoxyParamCaption}\item[{int}]{m,  }\item[{char $\ast$}]{filename }\end{DoxyParamCaption})}
 
-Function detail 
+Constructor of \mbox{\hyperlink{classGolomb}{Golomb}} class 
 \begin{DoxyParams}{Parameters}
-{\em m} & description \\
+{\em m} & An integer parameter, m \texorpdfstring{$>$}{>} 0. \\
 \hline
-{\em filename} & description \\
+{\em filename} & Name of the file to be read or written where the bits are stored. \\
 \hline
 \end{DoxyParams}
 
@@ -78,8 +80,8 @@ Definition at line \mbox{\hyperlink{Golomb_8cpp_source_l00008}{8}} of file \mbox
 \doxysubsubsection{\texorpdfstring{decode()}{decode()}}
 {\footnotesize\ttfamily int Golomb\+::decode (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Function detail \begin{DoxyReturn}{Returns}
-description of the return value 
+The function reads from a text file the bits associated with a goal code dividing it into unary (quotient) and binary (remainder) parts decoding their value and returning the value of the divisor according to the quotient and remainder discovered. \begin{DoxyReturn}{Returns}
+Value of the decoded golomb code divisor. 
 \end{DoxyReturn}
 
 
@@ -113,15 +115,15 @@ Definition at line \mbox{\hyperlink{Golomb_8cpp_source_l00040}{40}} of file \mbo
 \DoxyCodeLine{00063 \}}
 
 \end{DoxyCode}
-\mbox{\Hypertarget{classGolomb_ac23190a357af7db62de1f4a213c6ce36}\label{classGolomb_ac23190a357af7db62de1f4a213c6ce36}} 
+\mbox{\Hypertarget{classGolomb_a510c3b0db9c23cc0caa654f54cabeda7}\label{classGolomb_a510c3b0db9c23cc0caa654f54cabeda7}} 
 \index{Golomb@{Golomb}!encode@{encode}}
 \index{encode@{encode}!Golomb@{Golomb}}
 \doxysubsubsection{\texorpdfstring{encode()}{encode()}}
-{\footnotesize\ttfamily void Golomb\+::encode (\begin{DoxyParamCaption}\item[{int}]{n }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Golomb\+::encode (\begin{DoxyParamCaption}\item[{int}]{sn }\end{DoxyParamCaption})}
 
-Function detail 
+The function writes to a text file the golomb code associated with its input sn by the value of m passed in the constructor. The contents of the file will be the quotient of the division of sn/m in unary, followed by the remainder of that division in binary. 
 \begin{DoxyParams}{Parameters}
-{\em n} & description \\
+{\em sn} & An input value to be divided. \\
 \hline
 \end{DoxyParams}
 
@@ -169,11 +171,11 @@ Definition at line \mbox{\hyperlink{Golomb_8cpp_source_l00013}{13}} of file \mbo
 
 
 
-Atribute detail. 
+Name of the file to be read or written where the bits are stored. 
 
 
 
-Definition at line \mbox{\hyperlink{Golomb_8hpp_source_l00021}{21}} of file \mbox{\hyperlink{Golomb_8hpp_source}{Golomb.\+hpp}}.
+Definition at line \mbox{\hyperlink{Golomb_8hpp_source_l00024}{24}} of file \mbox{\hyperlink{Golomb_8hpp_source}{Golomb.\+hpp}}.
 
 \mbox{\Hypertarget{classGolomb_aea433fe3049440988ad1fa1a5eb536a3}\label{classGolomb_aea433fe3049440988ad1fa1a5eb536a3}} 
 \index{Golomb@{Golomb}!m@{m}}
@@ -183,11 +185,11 @@ Definition at line \mbox{\hyperlink{Golomb_8hpp_source_l00021}{21}} of file \mbo
 
 
 
-Atribute detail. 
+An integer parameter, m \texorpdfstring{$>$}{>} 0. 
 
 
 
-Definition at line \mbox{\hyperlink{Golomb_8hpp_source_l00015}{15}} of file \mbox{\hyperlink{Golomb_8hpp_source}{Golomb.\+hpp}}.
+Definition at line \mbox{\hyperlink{Golomb_8hpp_source_l00018}{18}} of file \mbox{\hyperlink{Golomb_8hpp_source}{Golomb.\+hpp}}.
 
 \mbox{\Hypertarget{classGolomb_ac76499a5813a4ebc6427b6f54e45f777}\label{classGolomb_ac76499a5813a4ebc6427b6f54e45f777}} 
 \index{Golomb@{Golomb}!q@{q}}
@@ -197,11 +199,11 @@ Definition at line \mbox{\hyperlink{Golomb_8hpp_source_l00015}{15}} of file \mbo
 
 
 
-Atribute detail. 
+The quotient, q, can have the values 0, 1, 2, . . . , and is represented by unary code. 
 
 
 
-Definition at line \mbox{\hyperlink{Golomb_8hpp_source_l00017}{17}} of file \mbox{\hyperlink{Golomb_8hpp_source}{Golomb.\+hpp}}.
+Definition at line \mbox{\hyperlink{Golomb_8hpp_source_l00020}{20}} of file \mbox{\hyperlink{Golomb_8hpp_source}{Golomb.\+hpp}}.
 
 \mbox{\Hypertarget{classGolomb_a172404aade8b16da4ff3fbcde825e567}\label{classGolomb_a172404aade8b16da4ff3fbcde825e567}} 
 \index{Golomb@{Golomb}!r@{r}}
@@ -211,11 +213,11 @@ Definition at line \mbox{\hyperlink{Golomb_8hpp_source_l00017}{17}} of file \mbo
 
 
 
-Atribute detail. 
+The remainder of the division, r, can have the values 0, 1, 2, . . . , m−1, and is represented by binary code. 
 
 
 
-Definition at line \mbox{\hyperlink{Golomb_8hpp_source_l00019}{19}} of file \mbox{\hyperlink{Golomb_8hpp_source}{Golomb.\+hpp}}.
+Definition at line \mbox{\hyperlink{Golomb_8hpp_source_l00022}{22}} of file \mbox{\hyperlink{Golomb_8hpp_source}{Golomb.\+hpp}}.
 
 
 
