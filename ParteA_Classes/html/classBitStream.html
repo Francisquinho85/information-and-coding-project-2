@@ -69,6 +69,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>A class to read/write bits from/to a file.  
+ <a href="classBitStream.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="BitStream_8hpp_source.html">BitStream.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -84,21 +87,20 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9e51f289287640fff35a56bb605aaa1a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBitStream.html#a9e51f289287640fff35a56bb605aaa1a">writeNBits</a> (int number, int bits)</td></tr>
 <tr class="separator:a9e51f289287640fff35a56bb605aaa1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17a01273ccc12e3c0a1045a010736a8e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBitStream.html#a17a01273ccc12e3c0a1045a010736a8e">close</a> ()</td></tr>
-<tr class="memdesc:a17a01273ccc12e3c0a1045a010736a8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function detail.  <a href="classBitStream.html#a17a01273ccc12e3c0a1045a010736a8e">More...</a><br /></td></tr>
+<tr class="memdesc:a17a01273ccc12e3c0a1045a010736a8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close the writing and reading of a file.  <a href="classBitStream.html#a17a01273ccc12e3c0a1045a010736a8e">More...</a><br /></td></tr>
 <tr class="separator:a17a01273ccc12e3c0a1045a010736a8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >This is the brief description for this class.</p>
-<p >This is the detailed description. More stuff here. </p>
+<div class="textblock"><p >A class to read/write bits from/to a file. </p>
 <h3><a class="anchor" id="autotoc_md0"></a>
 Example</h3>
 <div class="fragment"><div class="line"><span class="keywordtype">char</span>* x = <span class="stringliteral">&quot;input.txt&quot;</span>;</div>
 <div class="line"><span class="keywordtype">char</span> y = <span class="stringliteral">&quot;w&quot;</span>;</div>
 <div class="line"><a class="code hl_class" href="classBitStream.html">BitStream</a>* g = <span class="keyword">new</span> <a class="code hl_function" href="classBitStream.html#aa661feaba3f62241adba18f088d18768">BitStream</a>(x,y);</div>
-<div class="ttc" id="aclassBitStream_html"><div class="ttname"><a href="classBitStream.html">BitStream</a></div><div class="ttdef"><b>Definition:</b> <a href="BitStream_8hpp_source.html#l00014">BitStream.hpp:14</a></div></div>
+<div class="ttc" id="aclassBitStream_html"><div class="ttname"><a href="classBitStream.html">BitStream</a></div><div class="ttdoc">A class to read/write bits from/to a file.</div><div class="ttdef"><b>Definition:</b> <a href="BitStream_8hpp_source.html#l00012">BitStream.hpp:12</a></div></div>
 <div class="ttc" id="aclassBitStream_html_aa661feaba3f62241adba18f088d18768"><div class="ttname"><a href="classBitStream.html#aa661feaba3f62241adba18f088d18768">BitStream::BitStream</a></div><div class="ttdeci">BitStream(const char *fileName, char m)</div><div class="ttdef"><b>Definition:</b> <a href="BitStream_8cpp_source.html#l00006">BitStream.cpp:6</a></div></div>
 </div><!-- fragment --> 
-<p class="definition">Definition at line <a class="el" href="BitStream_8hpp_source.html#l00014">14</a> of file <a class="el" href="BitStream_8hpp_source.html">BitStream.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BitStream_8hpp_source.html#l00012">12</a> of file <a class="el" href="BitStream_8hpp_source.html">BitStream.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aa661feaba3f62241adba18f088d18768" name="aa661feaba3f62241adba18f088d18768"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa661feaba3f62241adba18f088d18768">&#9670;&nbsp;</a></span>BitStream()</h2>
@@ -125,10 +127,10 @@ Example</h3>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Function detail </p><dl class="params"><dt>Parameters</dt><dd>
+<p >Constructor of <a class="el" href="classBitStream.html" title="A class to read/write bits from/to a file.">BitStream</a> class </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">fileName</td><td>description </td></tr>
-    <tr><td class="paramname">m</td><td>description </td></tr>
+    <tr><td class="paramname">fileName</td><td>Name of the file to be read or written where the bits are stored. </td></tr>
+    <tr><td class="paramname">m</td><td>Char that will indicate if the file is to be read("r") or written("w"). </td></tr>
   </table>
   </dd>
 </dl>
@@ -159,7 +161,7 @@ Example</h3>
       </table>
 </div><div class="memdoc">
 
-<p>Function detail. </p>
+<p>Close the writing and reading of a file. </p>
 
 <p class="definition">Definition at line <a class="el" href="BitStream_8cpp_source.html#l00056">56</a> of file <a class="el" href="BitStream_8cpp_source.html">BitStream.cpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   56</span>                      {</div>
@@ -186,7 +188,7 @@ Example</h3>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Function detail </p><dl class="section return"><dt>Returns</dt><dd>description of the return value </dd></dl>
+<p >Read a single bit from a file. </p><dl class="section return"><dt>Returns</dt><dd>Returns the bit that was read from the file. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="BitStream_8cpp_source.html#l00014">14</a> of file <a class="el" href="BitStream_8cpp_source.html">BitStream.cpp</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   14</span>                      {</div>
@@ -219,7 +221,7 @@ Example</h3>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Function detail </p><dl class="params"><dt>Parameters</dt><dd>
+<p >Read N bits from a file. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">bits</td><td>description </td></tr>
   </table>
@@ -254,9 +256,9 @@ Example</h3>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Function detail </p><dl class="params"><dt>Parameters</dt><dd>
+<p >Write a single bit to a file. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">bit</td><td>description </td></tr>
+    <tr><td class="paramname">bit</td><td>Input bit to be written to the file. </td></tr>
   </table>
   </dd>
 </dl>
@@ -302,10 +304,10 @@ Example</h3>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Function detail </p><dl class="params"><dt>Parameters</dt><dd>
+<p >Write N bits to a file. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">number</td><td>description </td></tr>
-    <tr><td class="paramname">bits</td><td>description </td></tr>
+    <tr><td class="paramname">number</td><td>Input int to be written to the file in bits. </td></tr>
+    <tr><td class="paramname">bits</td><td>Number of bits to which the input number value will be written. </td></tr>
   </table>
   </dd>
 </dl>

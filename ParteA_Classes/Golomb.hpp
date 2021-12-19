@@ -1,10 +1,11 @@
-/// Implemention of Golomb Code.
-///
+/// A class to implement Golomb Code.
+
 /// Golomb coding is a lossless data compression method using a family of data compression codes.
 /// It relies on separating an integer into two parts:
 ///
 /// One of those parts is represented by a unary code.
 /// The other part is represented using a binary code.
+
 /// ### Example
 /// ~~~~~~~~~~~~~~~~~~~~~~.cpp
 /// int x = 2;

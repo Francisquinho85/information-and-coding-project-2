@@ -2,6 +2,11 @@
 \label{classBitStream}\index{BitStream@{BitStream}}
 
 
+A class to read/write bits from/to a file.  
+
+
+
+
 {\ttfamily \#include $<$Bit\+Stream.\+hpp$>$}
 
 \doxysubsection*{Public Member Functions}
@@ -18,13 +23,13 @@ void \mbox{\hyperlink{classBitStream_ab1f6d2e459905791259b83160ecc6d37}{write\+B
 void \mbox{\hyperlink{classBitStream_a9e51f289287640fff35a56bb605aaa1a}{write\+NBits}} (int number, int bits)
 \item 
 void \mbox{\hyperlink{classBitStream_a17a01273ccc12e3c0a1045a010736a8e}{close}} ()
-\begin{DoxyCompactList}\small\item\em Function detail. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Close the writing and reading of a file. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
-This is the brief description for this class.
+A class to read/write bits from/to a file. 
 
-This is the detailed description. More stuff here. \hypertarget{classBitStream_autotoc_md0}{}\doxyparagraph{Example}\label{classBitStream_autotoc_md0}
+\hypertarget{classBitStream_autotoc_md0}{}\doxyparagraph{Example}\label{classBitStream_autotoc_md0}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\textcolor{keywordtype}{char}* x = \textcolor{stringliteral}{"{}input.txt"{}};}
@@ -34,7 +39,7 @@ This is the detailed description. More stuff here. \hypertarget{classBitStream_a
 \end{DoxyCode}
  
 
-Definition at line \mbox{\hyperlink{BitStream_8hpp_source_l00014}{14}} of file \mbox{\hyperlink{BitStream_8hpp_source}{Bit\+Stream.\+hpp}}.
+Definition at line \mbox{\hyperlink{BitStream_8hpp_source_l00012}{12}} of file \mbox{\hyperlink{BitStream_8hpp_source}{Bit\+Stream.\+hpp}}.
 
 
 
@@ -45,11 +50,11 @@ Definition at line \mbox{\hyperlink{BitStream_8hpp_source_l00014}{14}} of file \
 \doxysubsubsection{\texorpdfstring{BitStream()}{BitStream()}}
 {\footnotesize\ttfamily Bit\+Stream\+::\+Bit\+Stream (\begin{DoxyParamCaption}\item[{const char $\ast$}]{file\+Name,  }\item[{char}]{m }\end{DoxyParamCaption})}
 
-Function detail 
+Constructor of \mbox{\hyperlink{classBitStream}{Bit\+Stream}} class 
 \begin{DoxyParams}{Parameters}
-{\em file\+Name} & description \\
+{\em file\+Name} & Name of the file to be read or written where the bits are stored. \\
 \hline
-{\em m} & description \\
+{\em m} & Char that will indicate if the file is to be read(\char`\"{}r\char`\"{}) or written(\char`\"{}w\char`\"{}). \\
 \hline
 \end{DoxyParams}
 
@@ -77,7 +82,7 @@ Definition at line \mbox{\hyperlink{BitStream_8cpp_source_l00006}{6}} of file \m
 
 
 
-Function detail. 
+Close the writing and reading of a file. 
 
 
 
@@ -100,8 +105,8 @@ Definition at line \mbox{\hyperlink{BitStream_8cpp_source_l00056}{56}} of file \
 \doxysubsubsection{\texorpdfstring{readBit()}{readBit()}}
 {\footnotesize\ttfamily int Bit\+Stream\+::read\+Bit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Function detail \begin{DoxyReturn}{Returns}
-description of the return value 
+Read a single bit from a file. \begin{DoxyReturn}{Returns}
+Returns the bit that was read from the file. 
 \end{DoxyReturn}
 
 
@@ -129,7 +134,7 @@ Definition at line \mbox{\hyperlink{BitStream_8cpp_source_l00014}{14}} of file \
 \doxysubsubsection{\texorpdfstring{readNBits()}{readNBits()}}
 {\footnotesize\ttfamily int Bit\+Stream\+::read\+NBits (\begin{DoxyParamCaption}\item[{int}]{bits }\end{DoxyParamCaption})}
 
-Function detail 
+Read N bits from a file. 
 \begin{DoxyParams}{Parameters}
 {\em bits} & description \\
 \hline
@@ -158,9 +163,9 @@ Definition at line \mbox{\hyperlink{BitStream_8cpp_source_l00027}{27}} of file \
 \doxysubsubsection{\texorpdfstring{writeBit()}{writeBit()}}
 {\footnotesize\ttfamily void Bit\+Stream\+::write\+Bit (\begin{DoxyParamCaption}\item[{bool}]{bit }\end{DoxyParamCaption})}
 
-Function detail 
+Write a single bit to a file. 
 \begin{DoxyParams}{Parameters}
-{\em bit} & description \\
+{\em bit} & Input bit to be written to the file. \\
 \hline
 \end{DoxyParams}
 
@@ -189,11 +194,11 @@ Definition at line \mbox{\hyperlink{BitStream_8cpp_source_l00035}{35}} of file \
 \doxysubsubsection{\texorpdfstring{writeNBits()}{writeNBits()}}
 {\footnotesize\ttfamily void Bit\+Stream\+::write\+NBits (\begin{DoxyParamCaption}\item[{int}]{number,  }\item[{int}]{bits }\end{DoxyParamCaption})}
 
-Function detail 
+Write N bits to a file. 
 \begin{DoxyParams}{Parameters}
-{\em number} & description \\
+{\em number} & Input int to be written to the file in bits. \\
 \hline
-{\em bits} & description \\
+{\em bits} & Number of bits to which the input number value will be written. \\
 \hline
 \end{DoxyParams}
 

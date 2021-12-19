@@ -1,9 +1,7 @@
 #include <fstream>
 #include <iostream>
 
-/// This is the brief description for this class.
-///
-/// This is the detailed description. More stuff here.
+/// A class to read/write bits from/to a file.
 
 /// ### Example
 /// ~~~~~~~~~~~~~~~~~~~~~~.cpp
@@ -13,39 +11,39 @@
 /// ~~~~~~~~~~~~~~~~~~~~~~
 class BitStream{
     public:
-        /// Function detail
-        /// @param fileName description
-        /// @param m description
+        /// Constructor of BitStream class
+        /// @param fileName Name of the file to be read or written where the bits are stored.
+        /// @param m Char that will indicate if the file is to be read("r") or written("w").
         BitStream(const char* fileName, char m);
 
-        /// Function detail
-        /// @returns description of the return value
+        /// Read a single bit from a file.
+        /// @returns Returns the bit that was read from the file.
         int readBit();
 
-        /// Function detail
+        /// Read N bits from a file.
         /// @param bits description
         /// @returns description of the return value
         int readNBits(int bits);
 
-        /// Function detail
-        /// @param bit description
+        /// Write a single bit to a file.
+        /// @param bit Input bit to be written to the file.
         void writeBit(bool bit);
 
-        /// Function detail
-        /// @param number description
-        /// @param bits description
+        /// Write N bits to a file.
+        /// @param number Input int to be written to the file in bits.
+        /// @param bits Number of bits to which the input number value will be written.
         void writeNBits(int number,int bits);
 
-        /// Function detail
+        /// Close the writing and reading of a file.
         void close();
     
     private:
-        /// Atribute detail
+        /// Buffer of the file content.
         char buf;
-        /// Atribute detail
+        /// Position where the bit is in the buffer.
         int pos;
-        /// Atribute detail
+        /// Char that will indicate if the file is to be read("r") or written("w").
         char mode;
-        /// Atribute detail
+        /// Name of the file to be read or written where the bits are stored.
         std::fstream file; 
 };
