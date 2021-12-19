@@ -6,7 +6,7 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-// g++ 1.cpp -o 1 `pkg-config --cflags --libs opencv4` 
+// g++ 1.cpp -o 1 -std=c++11 `pkg-config --cflags --libs opencv`
 
 using namespace cv;
 using namespace std;
@@ -20,5 +20,5 @@ int main(int argc, char** argv){
     split( original_image, bgr_planes );
     vector<Mat> yuv_planes;
     split( converted_image, yuv_planes );
-    cout << bgr_planes[0] << "YUV" << yuv_planes[0];
+    cout << "BGR" << original_image.at<Vec3b>(0,0) << "YUV" << converted_image.at<Vec3b>(0,0) << '\n';
 }
