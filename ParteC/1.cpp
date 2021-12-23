@@ -13,10 +13,20 @@ using namespace std;
 
 Mat converted_image;
 Mat original_image;
+Mat y,cb,cr;
 
 void BGRtoYUV420(){
     cvtColor(original_image, converted_image, COLOR_BGR2YUV_I420);
+    y = converted_image(Range(0,converted_image.rows*2/3), Range(0,converted_image.cols));
+    cb = converted_image(Range(converted_image.rows*2/3,converted_image.rows*2/3+((converted_image.rows-converted_image.rows*2/3)/2)),
+        Range(converted_image.cols/2,converted_image.cols));
+    cr = converted_image(Range(converted_image.rows*2/3+((converted_image.rows-converted_image.rows*2/3)/2),converted_image.rows), 
+        Range(converted_image.cols/2,converted_image.cols));
+    imshow("y",y);
+    imshow("cb",cb);
+    imshow("cr",cr);
 }
+
 
 void predictorJPEGls(){
     for(int x=0; x<converted_image.rows; x++){
@@ -42,7 +52,7 @@ void predictorJPEGls(){
 }
 
 int main(int argc, char** argv){
-    original_image = imread(argv[1]);
+    original_image = imread(argv[1],IMREAD_COLOR);
     BGRtoYUV420();
     //predictorJPEGls();
     vector<Mat> bgr_planes;
@@ -55,9 +65,9 @@ int main(int argc, char** argv){
     insertChannel(converted_image(Rect(0, 0, YUV.cols, YUV.rows)), YUV, 0);
 
     Mat U = converted_image(Rect(0, YUV.rows, YUV.cols, YUV.rows / 4));
-    imshow("U1", U);
+    //imshow("U1", U);
     U = U.reshape(1, YUV.rows / 2);
-    imshow("U2", U);
+    //imshow("U2", U);
     resize(U, U, Size(YUV.cols, YUV.rows));
     insertChannel(U, YUV, 2);
 
@@ -67,5 +77,8 @@ int main(int argc, char** argv){
     insertChannel(V, YUV, 1);
 
     cvtColor(YUV, YUV, COLOR_YUV2BGR);
-    imwrite("Restored.ppm", YUV);
+    imshow("Restored", converted_image);
+    imshow("Restd", original_image);
+    waitKey();
+    return EXIT_SUCCESS;
 }
