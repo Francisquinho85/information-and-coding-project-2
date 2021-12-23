@@ -54,29 +54,7 @@ void predictorJPEGls(){
 int main(int argc, char** argv){
     original_image = imread(argv[1],IMREAD_COLOR);
     BGRtoYUV420();
-    //predictorJPEGls();
-    vector<Mat> bgr_planes;
-    split( original_image, bgr_planes );
-    vector<Mat> yuv_planes;
-    split( converted_image, yuv_planes );
-
-
-    Mat YUV(converted_image.rows * 2 / 3, converted_image.cols, CV_8UC3);
-    insertChannel(converted_image(Rect(0, 0, YUV.cols, YUV.rows)), YUV, 0);
-
-    Mat U = converted_image(Rect(0, YUV.rows, YUV.cols, YUV.rows / 4));
-    //imshow("U1", U);
-    U = U.reshape(1, YUV.rows / 2);
-    //imshow("U2", U);
-    resize(U, U, Size(YUV.cols, YUV.rows));
-    insertChannel(U, YUV, 2);
-
-    Mat V = converted_image(Rect(0, YUV.rows + YUV.rows/4, YUV.cols, YUV.rows / 4));
-    V = V.reshape(1, YUV.rows / 2);
-    resize(V, V, Size(YUV.cols, YUV.rows));
-    insertChannel(V, YUV, 1);
-
-    cvtColor(YUV, YUV, COLOR_YUV2BGR);
+    //predictorJPEGls();   
     imshow("Restored", converted_image);
     imshow("Restd", original_image);
     waitKey();
