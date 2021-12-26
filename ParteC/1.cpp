@@ -151,24 +151,24 @@ void decode(int m, char* file, Mat &dy, Mat &dcb, Mat &dcr){
 int main(int argc, char** argv){
     original_image = imread(argv[1],IMREAD_COLOR);
     BGRtoYUV420();
-    y.copyTo(pred_y);
+    pred_y = Mat::zeros(y.rows, y.cols,CV_8U);
     predictorJPEGls(y,pred_y);
-    cb.copyTo(pred_cb);
+    pred_cb = Mat::zeros(cb.rows, cb.cols,CV_8U);
     predictorJPEGls(cb,pred_cb);
-    cr.copyTo(pred_cr);
+    pred_cr = Mat::zeros(cr.rows, cr.cols,CV_8U);
     predictorJPEGls(cr,pred_cr);
 
     encode(6,"teste.txt");
-    y.copyTo(dec_y);
-    cb.copyTo(dec_cb);
-    cr.copyTo(dec_cr);
+    dec_y = Mat::zeros(y.rows, y.cols,CV_8U);
+    dec_cb = Mat::zeros(cb.rows, cb.cols,CV_8U);
+    dec_cr = Mat::zeros(cr.rows, cr.cols,CV_8U);
     decode(6,"teste.txt",dec_y,dec_cb,dec_cr);
 
-    dec_y.copyTo(desp_y);
+    desp_y = Mat::zeros(y.rows, y.cols,CV_8U);
     despredictor(dec_y,desp_y);
-    dec_cb.copyTo(desp_cb);
+    desp_cb = Mat::zeros(cb.rows, cb.cols,CV_8U);
     despredictor(dec_cb,desp_cb);
-    dec_cr.copyTo(desp_cr);
+    desp_cr = Mat::zeros(cr.rows, cr.cols,CV_8U);
     despredictor(dec_cr,desp_cr);
     
     resultYUV = Mat::zeros(converted_image.rows, converted_image.cols,CV_8U);
