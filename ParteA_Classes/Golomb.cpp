@@ -1,13 +1,16 @@
 #include <math.h> 
 #include "Golomb.hpp"
-#include "BitStream.cpp"
+#include "BitStream.hpp"
 #include <iostream>
 #include <string> 
 using namespace std;
 
+BitStream bsw,bsr;
+
 Golomb::Golomb(int m,char* filename){
     this->filename = filename;
     this->m = m;
+    bsr = BitStream(filename,'r');
 }
 
 void Golomb::encode(int sn){
@@ -20,26 +23,42 @@ void Golomb::encode(int sn){
     int r = n-q*(this->m);
 
     // write in BitStream
-    BitStream bs(this->filename,'w');
+    //BitStream bs(this->filename,'w');
     for(int i=0;i < q;i++){
-        bs.writeBit(1);
+        bsw.writeBit(1);
 
     }
-    bs.writeBit(0);
+    bsw.writeBit(0);
     double log = log2(this->m);
     int b = ceil(log);
     int aux = pow(2,b)-m;
     int res = r + aux;
     if(r < aux){
-        bs.writeNBits(r,b-1);
+        bsw.writeNBits(r,b-1);
     }
-    else bs.writeNBits(res,b);
-    bs.close();     
+    else bsw.writeNBits(res,b);
+    //bs.close();     
+}
+
+void Golomb::openBsw(){
+    bsw =  BitStream(this->filename,'w');
+}
+
+void Golomb::closeBsw(){
+    bsw.close();
+}
+
+void Golomb::openBsr(){
+    bsw =  BitStream(this->filename,'w');
+}
+
+void Golomb::closeBsr(){
+    bsw.close();
 }
 
 int Golomb::decode(){
-    BitStream bs(this->filename,'r');
-    while(bs.readBit()==1){
+    q = 0;
+    while(bsr.readBit()==1){
         q++;
     }
 
@@ -49,13 +68,12 @@ int Golomb::decode(){
     int res = 0;
     for (int i = 0; i < b-1; i++)
     {
-        res = (res << 1) | bs.readBit();
+        res = (res << 1) | bsr.readBit();
     }
-    bs.close();
     int n = 0;
     if (res < aux) n = q*m+res;
     else { 
-        res = (res << 1) | bs.readBit();
+        res = (res << 1) | bsr.readBit();
         n = (q * m) + (res - aux);
     }
     if(n%2==0)return n/2;

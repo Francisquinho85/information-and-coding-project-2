@@ -5,7 +5,7 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
-
+#include "../ParteA_Classes/Golomb.hpp"
 // g++ 1.cpp -o 1 -std=c++11 `pkg-config --cflags --libs opencv`
 
 using namespace cv;
@@ -67,6 +67,56 @@ void predictorJPEGls(Mat img, Mat &predictor){
     //cout << (int)predictor.at<uchar>(0,0) << " - " << (int)img.at<uchar>(0,0) <<'\n';
 }
 
+void encode(int m, char* file){
+
+    //pred_y,pred_cb,pred_cr;
+    Golomb g(m,file);
+    g.openBsw();
+    for(int x=0; x<pred_y.rows; x++){
+        for(int y=0; y<pred_y.cols; y++){
+            cout << (int)pred_y.at<char>(x,y) << '\n';
+            g.encode(pred_y.at<char>(x,y));
+        }
+    }
+    // for(int x=0; x<pred_cb.rows; x++){
+    //     for(int y=0; y<pred_cb.cols; y++){
+    //         //cout << (int)pred_cb.at<char>(x,y) << '\n';
+    //         g.encode(pred_cb.at<char>(x,y));
+    //     }
+    // }
+    // for(int x=0; x<pred_cr.rows; x++){
+    //     for(int y=0; y<pred_cr.cols; y++){
+    //         //cout << (int)pred_cr.at<char>(x,y) << '\n';
+    //         g.encode(pred_cr.at<char>(x,y));
+    //     }
+    // }
+    g.closeBsw();
+}
+
+void decode(int m, char* file){
+    Golomb g(m,file);
+    g.openBsr();
+    for(int x=0; x<pred_y.rows; x++){
+        for(int y=0; y<pred_y.cols; y++){
+            char a = g.decode();
+            cout << (int)a << " x " <<(int)pred_y.at<char>(x,y)<< '\n';
+        }
+    }
+    // for(int x=0; x<pred_cb.rows; x++){
+    //     for(int y=0; y<pred_cb.cols; y++){
+    //         //cout << (int)pred_cb.at<char>(x,y) << '\n';
+    //         g.encode(pred_cb.at<char>(x,y));
+    //     }
+    // }
+    // for(int x=0; x<pred_cr.rows; x++){
+    //     for(int y=0; y<pred_cr.cols; y++){
+    //         //cout << (int)pred_cr.at<char>(x,y) << '\n';
+    //         g.encode(pred_cr.at<char>(x,y));
+    //     }
+    // }
+    g.closeBsr();
+}
+
 int main(int argc, char** argv){
     original_image = imread(argv[1],IMREAD_COLOR);
     BGRtoYUV420();
@@ -76,6 +126,10 @@ int main(int argc, char** argv){
     predictorJPEGls(cb,pred_cb);
     cr.copyTo(pred_cr);
     predictorJPEGls(cr,pred_cb);
+
+    encode(6,"teste.txt");
+    decode(6,"teste.txt");
+
     imshow("Restored", converted_image);
     imshow("Restd", original_image);
     waitKey();

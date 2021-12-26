@@ -36,4 +36,9 @@ class Golomb{
         /// The function reads from a text file the bits associated with a goal code dividing it into unary (quotient) and binary (remainder) parts decoding their value and returning the value of the divisor according to the quotient and remainder discovered. 
         /// @return Value of the decoded golomb code divisor.
         int decode();
+
+        void closeBsw();
+        void openBsw();
+        void closeBsr();
+        void openBsr();
 };

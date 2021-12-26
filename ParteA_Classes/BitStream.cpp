@@ -11,6 +11,8 @@ BitStream::BitStream(const char* fileName, char m)
     buf = 0;
 }
 
+BitStream::BitStream(){}
+
 int BitStream::readBit(){
     int bit;
     if(pos == 0) {
