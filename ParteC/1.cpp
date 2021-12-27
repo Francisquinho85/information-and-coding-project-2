@@ -1,12 +1,13 @@
 #include <iostream>
 #include <stdio.h>
+#include<fstream>
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include "../ParteA_Classes/Golomb.hpp"
-// g++ 1.cpp -o 1 -std=c++11 `pkg-config --cflags --libs opencv`
+// g++ 1.cpp ../ParteA_Classes/BitStream.cpp ../ParteA_Classes/Golomb.cpp -o 1 -std=c++11 `pkg-config --cflags --libs opencv
 
 using namespace cv;
 using namespace std;
@@ -149,6 +150,11 @@ void decode(int m, char* file, Mat &dy, Mat &dcb, Mat &dcr){
 }
 
 int main(int argc, char** argv){
+
+    std::ofstream clear_f;
+    clear_f.open("teste.txt", std::ofstream::out | std::ofstream::trunc);
+    clear_f.close();
+
     original_image = imread(argv[1],IMREAD_COLOR);
     BGRtoYUV420();
     pred_y = Mat::zeros(y.rows, y.cols,CV_8U);
@@ -181,6 +187,12 @@ int main(int argc, char** argv){
     imshow("Original", original_image);
     imshow("resultYUV",resultYUV);
     imshow("result",result);
+
+    ifstream size_f("teste.txt", ios::binary);
+    size_f.seekg(0, ios::end);
+    int file_size = size_f.tellg();
+    cout<<"Size of the file is"<<" "<< file_size<<" "<<"bytes\n";
+    size_f.close();
     waitKey();
     return EXIT_SUCCESS;
 }
