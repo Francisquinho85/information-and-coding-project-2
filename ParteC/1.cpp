@@ -191,8 +191,13 @@ int main(int argc, char** argv){
     ifstream size_f("teste.txt", ios::binary);
     size_f.seekg(0, ios::end);
     int file_size = size_f.tellg();
-    cout<<"Size of the file is"<<" "<< file_size<<" "<<"bytes\n";
+    cout<<"Size of the result file is"<<" "<< file_size<<" "<<"bytes\n";
     size_f.close();
+    ifstream size_i(argv[1], ios::binary);
+    size_i.seekg(0, ios::end);
+    int img_size = size_i.tellg();
+    cout<<"Size of the original image is"<<" "<< img_size<<" "<<"bytes\n";
+    size_i.close();
     waitKey();
     return EXIT_SUCCESS;
 }
