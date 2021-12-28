@@ -9,7 +9,10 @@ using namespace std;
 
 //g++ 1.cpp ../ParteA_Classes/Golomb.cpp ../ParteA_Classes/BitStream.cpp -o 1 
 
-vector<double> residuals;
+vector<int> residuals;
+int numChannels;
+int numSamplesPerChannel;
+
 
 void encode(int m, char * residFile){
     Golomb golomb(m,residFile);
@@ -20,29 +23,33 @@ void encode(int m, char * residFile){
     golomb.closeBsw();
 }
 
-void decode(int m, char * residFile, vector<double> decodedValues){
+void decode(int m, char * residFile, vector<int> &decodedValues){
     Golomb golomb(m,residFile);
     golomb.openBsr();
     for(int i = 0; i < residuals.size(); i++){
-        char dec = golomb.decode();
+        int dec = golomb.decode();
         decodedValues.push_back(dec);
     }
     golomb.closeBsr();
 }
 
-void audioPredict(char * fileName) {
+void audioPredict(char * fileName, char * dropBits) {
 
     AudioFile<double> audio;
     audio.load(fileName);
-    int numChannels = audio.getNumChannels();
-    int numSamples = audio.getNumSamplesPerChannel();
-    double sample, aux1 = 0, aux2 = 0, aux3, pred = 0;
+    numChannels = audio.getNumChannels();
+    numSamplesPerChannel = audio.getNumSamplesPerChannel();
+    int sample, aux1 = 0, aux2 = 0, aux3 = 0, pred = 0;
     int resid = 0;
     bool first = 1, second = 1, third = 1;
+    int bitsToDrop = atoi(dropBits);
 
     for(int c = 0; c < numChannels; c++) {
-        for(int s = 0; s < numSamples; s++) {
+        for(int s = 0; s < numSamplesPerChannel; s++) {
             sample = audio.samples[c][s] * 32768;
+
+            
+
             if(!third) {
                 pred = 3*aux1 - 3*aux2 + aux3; // pred = 3x[n-1] - 3x[n-2] + x[n-3]
                 resid = sample - pred;
@@ -59,6 +66,16 @@ void audioPredict(char * fileName) {
                 resid = sample;
                 first = 0;
             }
+
+            /*for(int j = 0; j < bitsToDrop; j++)     //
+			{                                       //
+				resid = resid / 2;                  //
+			}                                       // Residual
+			for(int k = 0; k < bitsToDrop; k++)     // Quantization
+			{                                       //
+				resid = resid * 2;                  //
+			}                                       //*/
+
             aux3 = aux2;
             aux2 = aux1;
             aux1 = sample;
@@ -67,23 +84,62 @@ void audioPredict(char * fileName) {
     }
 }
 
-void audioDespredictor(vector<double> decodedValues,vector<double> finalResult){
-    double originalVal = decodedValues[0];
-    double previous = 0;
+void audioDespredictor(vector<int> decodedValues,vector<int> &finalResult){
+    int originalVal = 0, aux1 = 0, aux2 = 0, aux3 = 0, decoded = 0, pred = 0;
     bool first = 1, second = 1, third = 1;
     for (int i = 0; i < decodedValues.size(); i++)
     {
+        decoded = decodedValues[i];
         
+        if(!third) {
+            pred = (3*aux1) - (3*aux2) + aux3; // pred = 3x[n-1] - 3x[n-2] + x[n-3]
+            originalVal = pred + decoded;
+        } else if(!second) {
+            pred = 2*aux1 - aux2;
+            originalVal = pred + decoded;
+            third = 0;
+        } else if(!first){
+            pred = aux1;
+            originalVal = pred + decoded;
+            second = 0;
+        } else {
+            pred = 0;
+            originalVal = decoded;
+            first = 0;
+        }
+        aux3 = aux2;
+        aux2 = aux1;
+        aux1 = originalVal;
+        finalResult.push_back(originalVal);
     }
+}
+
+void saveToWavFile(vector<int> finalResult, char * outFileName){
+
+    AudioFile<double> audioOut;
+    audioOut.setNumChannels(numChannels);
+    audioOut.setNumSamplesPerChannel(numSamplesPerChannel);
     
+    for(int c = 0; c < numChannels; c++) {
+        for(int s = 0; s < numSamplesPerChannel; s++){
+            if(c == 0){
+                audioOut.samples[c][s] = (double) finalResult[s] / 32768.0;
+            } else {
+                audioOut.samples[c][s] = (double) finalResult[s+numSamplesPerChannel] / 32768.0;
+            }
+        }
+    }
+    audioOut.save(outFileName, AudioFileFormat::Wave);
 }
 
 int main(int argc, char** argv){
-    
-    audioPredict(argv[1]);
+
+    audioPredict(argv[1],argv[4]);
     encode(6,argv[2]);
-    vector<double> decodedValues;
+    vector<int> decodedValues;
     decode(6,argv[2],decodedValues);
-    vector<double> finalResult;
+    vector<int> finalResult;
     audioDespredictor(decodedValues,finalResult);
+    saveToWavFile(finalResult, argv[3]);
+
 }
