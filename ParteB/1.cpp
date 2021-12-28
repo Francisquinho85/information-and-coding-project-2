@@ -4,14 +4,18 @@
 #include <fstream>
 #include "AudioFile.h"
 #include "../ParteA_Classes/Golomb.hpp"
+#include <map>
 
 using namespace std;
 
 //g++ 1.cpp ../ParteA_Classes/Golomb.cpp ../ParteA_Classes/BitStream.cpp -o 1 
 
 vector<int> residuals;
+map <double, int> histo_r;
 int numChannels;
 int numSamplesPerChannel;
+double entropy;
+double pR = 0;
 
 
 void encode(int m, char * residFile){
@@ -80,8 +84,23 @@ void audioPredict(char * fileName, char * dropBits) {
             aux2 = aux1;
             aux1 = sample;
             residuals.push_back(resid);
+
+            if (histo_r.find(resid)!= histo_r.end()){
+                histo_r[resid]++;
+            }else{
+                histo_r[resid]=1;
+            }
         }
     }
+    std:: ofstream ofsC1("hist_data.txt");
+    for(std::map<double,int>::iterator it = histo_r.begin(); it != histo_r.end(); ++it) {
+        pR = (double)it->second/(numChannels*numSamplesPerChannel);
+        if(pR > 0)
+            entropy -= (log(pR)/log(16)) *pR;
+        ofsC1 << it->first << "=>" << it->second << '\n';
+    }
+    ofsC1.close();
+    
 }
 
 void audioDespredictor(vector<int> decodedValues,vector<int> &finalResult){
@@ -141,5 +160,6 @@ int main(int argc, char** argv){
     vector<int> finalResult;
     audioDespredictor(decodedValues,finalResult);
     saveToWavFile(finalResult, argv[3]);
+    printf("Entropy of file %s: %f \n",argv[1],entropy);
 
 }
