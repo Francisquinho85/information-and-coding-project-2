@@ -14,11 +14,15 @@ vector<int> residuals;
 vector<int> residuals2;
 vector<int> samples;
 map <double, int> histo_r;
+map <double, int> histo_s;
 int numChannels;
 int numSamplesPerChannel;
 int bitsToDrop;
-double entropy;
-double pR = 0;
+double probR[65536];
+double probS[65536];
+double entropyR = 0;
+double entropyS = 0;
+
 
 void encode(int m, char * residFile, vector<int> r){
     Golomb golomb(m,residFile);
@@ -48,6 +52,11 @@ void audioPredict(char * fileName) {
     int sample, aux1 = 0, aux2 = 0, aux3 = 0, pred = 0;
     int resid = 0;
     bool first = 1, second = 1, third = 1;
+
+    for (int i=-32768; i < 32768;i++){
+        histo_r[i]=0;
+        histo_s[i]=0;
+    }
 
     for(int c = 0; c < numChannels; c++) {
         for(int s = 0; s < numSamplesPerChannel; s++) {
@@ -82,22 +91,49 @@ void audioPredict(char * fileName) {
             
             residuals.push_back(resid);
             
-            if (histo_r.find(resid)!= histo_r.end()){
-                histo_r[resid]++;
-            } else{
+            if (histo_r.find(resid)== histo_r.end()){
                 histo_r[resid]=1;
+            } else{
+                histo_r[resid]++;
+            }
+
+            if (histo_s.find(sample)== histo_s.end()){
+                histo_s[sample]=1;
+            } else{
+                histo_s[sample]++;
             }
         }
     }
-
-    std:: ofstream ofsC1("hist_data.txt");
-    for(std::map<double,int>::iterator it = histo_r.begin(); it != histo_r.end(); ++it) {
-        pR = (double)it->second/(numChannels*numSamplesPerChannel);
-        if(pR > 0)
-            entropy -= (log(pR)/log(16)) *pR;
-        ofsC1 << it->first << "=>" << it->second << '\n';
+    
+    for (int i=0; i < 65536;i++){
+        if (histo_r[i-3278] != 0)
+            probR[i] = histo_r[i-3278]*1.0/numSamplesPerChannel;
+        else
+            probR[i] = 0;
+        if (histo_s[i-3278] != 0)
+            probS[i] = histo_s[i-3278]*1.0/numSamplesPerChannel;
+        else
+            probS[i] = 0;
     }
-    ofsC1.close();
+     
+    for (int i=0;i<65536;i++){
+        if (probR[i] != 0)
+            entropyR = entropyR + (probR[i]*log(probR[i]/log(2)));
+        if (probS[i] != 0)
+            entropyS = entropyS + (probS[i]*log(probS[i]/log(2)));
+    }
+
+    std:: ofstream ofsR("hist_data_r.txt");
+    for(std::map<double,int>::iterator it = histo_r.begin(); it != histo_r.end(); ++it) {
+        ofsR << it->first << "=>" << it->second << '\n';
+    }
+    ofsR.close();
+
+    std:: ofstream ofsS("hist_data_s.txt");
+    for(std::map<double,int>::iterator it = histo_s.begin(); it != histo_s.end(); ++it) {
+        ofsS << it->first << "=>" << it->second << '\n';
+    }
+    ofsS.close();
 }
 
 void audioPredictor2(){
@@ -207,7 +243,9 @@ int main(int argc, char** argv){
     audioPredictor2();
     encode(m,bitsFile2,residuals2);
 
-    printf("Entropy of file %s: %f \n",argv[1],entropy);
+    printf("Entropy of residuals in file %s: %f \n",argv[1],-entropyR);
+    printf("Entropy of samples in file  %s: %f \n",argv[1],-entropyS);
+
 
     ifstream size_o(argv[1], ios::binary);
     size_o.seekg(0, ios::end);
