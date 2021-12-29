@@ -164,11 +164,12 @@ int main(int argc, char** argv){
     pred_cr = Mat::zeros(cr.rows, cr.cols,CV_8U);
     predictorJPEGls(cr,pred_cr);
 
-    encode(6,argv[2]);
+    int m = atoi(argv[3]);
+    encode(m,argv[2]);
     dec_y = Mat::zeros(y.rows, y.cols,CV_8U);
     dec_cb = Mat::zeros(cb.rows, cb.cols,CV_8U);
     dec_cr = Mat::zeros(cr.rows, cr.cols,CV_8U);
-    decode(6,argv[2],dec_y,dec_cb,dec_cr);
+    decode(m,argv[2],dec_y,dec_cb,dec_cr);
 
     desp_y = Mat::zeros(y.rows, y.cols,CV_8U);
     despredictor(dec_y,desp_y);
