@@ -15,6 +15,7 @@ class BitStream{
         /// @param fileName Name of the file to be read or written where the bits are stored.
         /// @param m Char that will indicate if the file is to be read("r") or written("w").
         BitStream(const char* fileName, char m);
+        /// Constructor of BitStream class
         BitStream();
         
         /// Read a single bit from a file.

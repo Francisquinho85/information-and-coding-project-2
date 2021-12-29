@@ -49,7 +49,7 @@ void Golomb::closeBsw(){
 }
 
 void Golomb::openBsr(){
-    bsw =  BitStream(this->filename,'w');
+    bsw =  BitStream(this->filename,'r');
 }
 
 void Golomb::closeBsr(){

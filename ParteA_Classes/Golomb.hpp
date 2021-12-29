@@ -37,8 +37,12 @@ class Golomb{
         /// @return Value of the decoded golomb code divisor.
         int decode();
 
+        /// Close the writing of a BitStream in a file.
         void closeBsw();
+        /// Open the writing of a BitStream in a file.
         void openBsw();
+        /// Close the reading of a BitStream in a file.
         void closeBsr();
+        /// Open the reading of a BitStream in a file.
         void openBsr();
 };
