@@ -10,7 +10,6 @@ BitStream bsw,bsr;
 Golomb::Golomb(int m,char* filename){
     this->filename = filename;
     this->m = m;
-    bsr = BitStream(filename,'r');
 }
 
 void Golomb::encode(int sn){
@@ -49,11 +48,11 @@ void Golomb::closeBsw(){
 }
 
 void Golomb::openBsr(){
-    bsw =  BitStream(this->filename,'r');
+    bsr =  BitStream(this->filename,'r');
 }
 
 void Golomb::closeBsr(){
-    bsw.close();
+    bsr.close();
 }
 
 int Golomb::decode(){
