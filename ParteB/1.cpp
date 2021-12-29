@@ -89,6 +89,7 @@ void audioPredict(char * fileName) {
             }
         }
     }
+    
     std:: ofstream ofsC1("hist_data.txt");
     for(std::map<double,int>::iterator it = histo_r.begin(); it != histo_r.end(); ++it) {
         pR = (double)it->second/(numChannels*numSamplesPerChannel);
@@ -118,7 +119,7 @@ void audioPredictor2(){
     }
 }
 
-void audioDespredictor(vector<int> decodedValues,vector<int> &finalResult){
+void audioDespredictor(vector<int> decodedValues, vector<int> &finalResult){
     int originalVal = 0, aux1 = 0, aux2 = 0, aux3 = 0, decoded = 0, pred = 0;
     bool first = 1, second = 1, third = 1;
 
@@ -175,22 +176,35 @@ void saveToWavFile(vector<int> finalResult, char * outFileName){
 
 int main(int argc, char** argv){
 
+    string file1 = "resid.bits";
+    string file2 = "resid2.bits";
+    char bitsFile1[file1.length() + 1];
+    char bitsFile2[file2.length() + 1];
+    strcpy(bitsFile1,file1.c_str());
+    strcpy(bitsFile2,file2.c_str());
+
     std::ofstream clear_f;
-    clear_f.open(argv[2], std::ofstream::out | std::ofstream::trunc);
+    clear_f.open(bitsFile1, std::ofstream::out | std::ofstream::trunc);
     clear_f.close();
-    clear_f.open(argv[4], std::ofstream::out | std::ofstream::trunc);
+    clear_f.open(bitsFile2, std::ofstream::out | std::ofstream::trunc);
     clear_f.close();
-    bitsToDrop = atoi(argv[5]);
+
+    if(argc > 3){
+        bitsToDrop = atoi(argv[3]);
+    } else {
+        bitsToDrop = 0;
+    }
+
     audioPredict(argv[1]);
-    encode(6,argv[2],residuals);
+    encode(6,bitsFile1,residuals);
     vector<int> decodedValues;
-    decode(6,argv[2],decodedValues);
+    decode(6,bitsFile1,decodedValues);
     vector<int> finalResult;
     audioDespredictor(decodedValues,finalResult);
-    saveToWavFile(finalResult, argv[3]);
+    saveToWavFile(finalResult, argv[2]);
     
     audioPredictor2();
-    encode(6,argv[4],residuals2);
+    encode(6,bitsFile2,residuals2);
 
     printf("Entropy of file %s: %f \n",argv[1],entropy);
 
@@ -199,12 +213,12 @@ int main(int argc, char** argv){
     int original_size = size_o.tellg();
     cout << "Size of the original file: " << original_size << " bytes\n";
     size_o.close();
-    ifstream size_f1(argv[2], ios::binary);
+    ifstream size_f1(bitsFile1, ios::binary);
     size_f1.seekg(0, ios::end);
     int file1_size = size_f1.tellg();
     cout << "Size of the result file of first predictor: " << file1_size << " bytes\n";
     size_f1.close();
-    ifstream size_f2(argv[4], ios::binary);
+    ifstream size_f2(bitsFile2, ios::binary);
     size_f2.seekg(0, ios::end);
     int file2_size = size_f2.tellg();
     cout << "Size of the result file of second predictor: " << file2_size << " bytes\n";
