@@ -11,18 +11,20 @@ using namespace std;
 //g++ 1.cpp ../ParteA_Classes/Golomb.cpp ../ParteA_Classes/BitStream.cpp -o 1 
 
 vector<int> residuals;
+vector<int> residuals2;
+vector<int> samples;
 map <double, int> histo_r;
 int numChannels;
 int numSamplesPerChannel;
+int bitsToDrop;
 double entropy;
 double pR = 0;
 
-
-void encode(int m, char * residFile){
+void encode(int m, char * residFile, vector<int> r){
     Golomb golomb(m,residFile);
     golomb.openBsw();
-    for(int i = 0; i < residuals.size(); i++){
-        golomb.encode(residuals[i]);
+    for(int i = 0; i < r.size(); i++){
+        golomb.encode(r[i]);
     }
     golomb.closeBsw();
 }
@@ -37,7 +39,7 @@ void decode(int m, char * residFile, vector<int> &decodedValues){
     golomb.closeBsr();
 }
 
-void audioPredict(char * fileName, char * dropBits) {
+void audioPredict(char * fileName) {
 
     AudioFile<double> audio;
     audio.load(fileName);
@@ -46,14 +48,17 @@ void audioPredict(char * fileName, char * dropBits) {
     int sample, aux1 = 0, aux2 = 0, aux3 = 0, pred = 0;
     int resid = 0;
     bool first = 1, second = 1, third = 1;
-    int bitsToDrop = atoi(dropBits);
 
     for(int c = 0; c < numChannels; c++) {
         for(int s = 0; s < numSamplesPerChannel; s++) {
             sample = audio.samples[c][s] * 32768;
+            samples.push_back(sample);
 
-            
-
+            for(int j = 0; j < bitsToDrop; j++)     //
+			{                                       // Residual
+				sample = sample / 2;                // Quantization 
+			}                                       // 
+			
             if(!third) {
                 pred = 3*aux1 - 3*aux2 + aux3; // pred = 3x[n-1] - 3x[n-2] + x[n-3]
                 resid = sample - pred;
@@ -71,23 +76,15 @@ void audioPredict(char * fileName, char * dropBits) {
                 first = 0;
             }
 
-            /*for(int j = 0; j < bitsToDrop; j++)     //
-			{                                       //
-				resid = resid / 2;                  //
-			}                                       // Residual
-			for(int k = 0; k < bitsToDrop; k++)     // Quantization
-			{                                       //
-				resid = resid * 2;                  //
-			}                                       //*/
-
             aux3 = aux2;
             aux2 = aux1;
             aux1 = sample;
+            
             residuals.push_back(resid);
-
+            
             if (histo_r.find(resid)!= histo_r.end()){
                 histo_r[resid]++;
-            }else{
+            } else{
                 histo_r[resid]=1;
             }
         }
@@ -100,16 +97,35 @@ void audioPredict(char * fileName, char * dropBits) {
         ofsC1 << it->first << "=>" << it->second << '\n';
     }
     ofsC1.close();
-    
+}
+
+void audioPredictor2(){
+
+    int sample,resid = 0,pred = 0;
+
+    for(int i = 0; i < samples.size(); i++){
+
+        sample = samples[i];
+
+        for(int j = 0; j < bitsToDrop; j++)
+        {                                       
+            sample = sample / 2;                
+        }                                       
+
+        resid = sample - pred;
+        pred = sample;
+        residuals2.push_back(resid);
+    }
 }
 
 void audioDespredictor(vector<int> decodedValues,vector<int> &finalResult){
     int originalVal = 0, aux1 = 0, aux2 = 0, aux3 = 0, decoded = 0, pred = 0;
     bool first = 1, second = 1, third = 1;
+
     for (int i = 0; i < decodedValues.size(); i++)
     {
         decoded = decodedValues[i];
-        
+
         if(!third) {
             pred = (3*aux1) - (3*aux2) + aux3; // pred = 3x[n-1] - 3x[n-2] + x[n-3]
             originalVal = pred + decoded;
@@ -129,6 +145,12 @@ void audioDespredictor(vector<int> decodedValues,vector<int> &finalResult){
         aux3 = aux2;
         aux2 = aux1;
         aux1 = originalVal;
+
+        for(int k = 0; k < bitsToDrop; k++)     
+        {                                       
+            originalVal = originalVal * 2;                
+        } 
+
         finalResult.push_back(originalVal);
     }
 }
@@ -153,13 +175,33 @@ void saveToWavFile(vector<int> finalResult, char * outFileName){
 
 int main(int argc, char** argv){
 
-    audioPredict(argv[1],argv[4]);
-    encode(6,argv[2]);
+    std::ofstream clear_f;
+    clear_f.open(argv[2], std::ofstream::out | std::ofstream::trunc);
+    clear_f.close();
+    clear_f.open(argv[4], std::ofstream::out | std::ofstream::trunc);
+    clear_f.close();
+    bitsToDrop = atoi(argv[5]);
+    audioPredict(argv[1]);
+    encode(6,argv[2],residuals);
     vector<int> decodedValues;
     decode(6,argv[2],decodedValues);
     vector<int> finalResult;
     audioDespredictor(decodedValues,finalResult);
     saveToWavFile(finalResult, argv[3]);
+    
+    audioPredictor2();
+    encode(6,argv[4],residuals2);
+
     printf("Entropy of file %s: %f \n",argv[1],entropy);
 
+    ifstream size_f(argv[2], ios::binary);
+    size_f.seekg(0, ios::end);
+    int file1_size = size_f.tellg();
+    cout << "Size of the result file of first predictor: "<< file1_size<<" "<<"bytes\n";
+    size_f.close();
+    ifstream size_i(argv[4], ios::binary);
+    size_i.seekg(0, ios::end);
+    int file2_size = size_i.tellg();
+    cout << "Size of the result file of second predictor: "<< file2_size<<" "<<"bytes\n";
+    size_i.close();
 }
