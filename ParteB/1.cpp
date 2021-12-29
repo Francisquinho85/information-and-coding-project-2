@@ -89,7 +89,7 @@ void audioPredict(char * fileName) {
             }
         }
     }
-    
+
     std:: ofstream ofsC1("hist_data.txt");
     for(std::map<double,int>::iterator it = histo_r.begin(); it != histo_r.end(); ++it) {
         pR = (double)it->second/(numChannels*numSamplesPerChannel);
@@ -189,22 +189,23 @@ int main(int argc, char** argv){
     clear_f.open(bitsFile2, std::ofstream::out | std::ofstream::trunc);
     clear_f.close();
 
-    if(argc > 3){
-        bitsToDrop = atoi(argv[3]);
+    int m = atoi(argv[3]);
+    if(argc > 4){
+        bitsToDrop = atoi(argv[4]);
     } else {
         bitsToDrop = 0;
     }
 
     audioPredict(argv[1]);
-    encode(6,bitsFile1,residuals);
+    encode(m,bitsFile1,residuals);
     vector<int> decodedValues;
-    decode(6,bitsFile1,decodedValues);
+    decode(m,bitsFile1,decodedValues);
     vector<int> finalResult;
     audioDespredictor(decodedValues,finalResult);
     saveToWavFile(finalResult, argv[2]);
     
     audioPredictor2();
-    encode(6,bitsFile2,residuals2);
+    encode(m,bitsFile2,residuals2);
 
     printf("Entropy of file %s: %f \n",argv[1],entropy);
 
