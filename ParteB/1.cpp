@@ -194,14 +194,19 @@ int main(int argc, char** argv){
 
     printf("Entropy of file %s: %f \n",argv[1],entropy);
 
-    ifstream size_f(argv[2], ios::binary);
-    size_f.seekg(0, ios::end);
-    int file1_size = size_f.tellg();
-    cout << "Size of the result file of first predictor: "<< file1_size<<" "<<"bytes\n";
-    size_f.close();
-    ifstream size_i(argv[4], ios::binary);
-    size_i.seekg(0, ios::end);
-    int file2_size = size_i.tellg();
-    cout << "Size of the result file of second predictor: "<< file2_size<<" "<<"bytes\n";
-    size_i.close();
+    ifstream size_o(argv[1], ios::binary);
+    size_o.seekg(0, ios::end);
+    int original_size = size_o.tellg();
+    cout << "Size of the original file: " << original_size << " bytes\n";
+    size_o.close();
+    ifstream size_f1(argv[2], ios::binary);
+    size_f1.seekg(0, ios::end);
+    int file1_size = size_f1.tellg();
+    cout << "Size of the result file of first predictor: " << file1_size << " bytes\n";
+    size_f1.close();
+    ifstream size_f2(argv[4], ios::binary);
+    size_f2.seekg(0, ios::end);
+    int file2_size = size_f2.tellg();
+    cout << "Size of the result file of second predictor: " << file2_size << " bytes\n";
+    size_f2.close();
 }
