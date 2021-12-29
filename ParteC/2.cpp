@@ -7,13 +7,14 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include "../ParteA_Classes/Golomb.hpp"
-// g++ 1.cpp ../ParteA_Classes/BitStream.cpp ../ParteA_Classes/Golomb.cpp -o 1 -std=c++11 `pkg-config --cflags --libs opencv
+// g++ 2.cpp ../ParteA_Classes/BitStream.cpp ../ParteA_Classes/Golomb.cpp -o 2 -std=c++11 `pkg-config --cflags --libs opencv`
 
 using namespace cv;
 using namespace std;
 
 Mat converted_image;
 Mat original_image;
+Mat reduce_img;
 Mat y,cb,cr,cb2;
 Mat pred_y,pred_cb,pred_cr;
 Mat dec_y,dec_cb,dec_cr;
@@ -22,7 +23,7 @@ Mat resultYUV;
 Mat result;
 
 void BGRtoYUV420(){
-    cvtColor(original_image, converted_image, COLOR_BGR2YUV_I420);
+    cvtColor(reduce_img, converted_image, COLOR_BGR2YUV_I420);
     y = converted_image(Range(0,converted_image.rows*2/3), Range(0,converted_image.cols));
     cb = converted_image(Range(converted_image.rows*2/3,converted_image.rows*2/3+((converted_image.rows-converted_image.rows*2/3)/2)),
         Range(0,converted_image.cols));
@@ -39,6 +40,7 @@ void BGRtoYUV420(){
      desp_cb.copyTo(resultYUV(Range(desp_y.rows, (desp_y.rows+desp_cb.rows)),Range(0,desp_cb.cols)));
      desp_cr.copyTo(resultYUV(Range((desp_y.rows+desp_cb.rows), resultYUV.rows),Range(0,desp_cr.cols)));
      cvtColor(resultYUV, result, COLOR_YUV2BGR_I420);
+
 }
 
 void predictorJPEGls(Mat img, Mat &predictor){
@@ -149,6 +151,30 @@ void decode(int m, char* file, Mat &dy, Mat &dcb, Mat &dcr){
     g.closeBsr();
 }
 
+void reduceBits(int bits, Mat &reduce_img){
+    for(int y=0; y<original_image.cols; y++){
+        for(int x=0; x<original_image.rows; x++){
+            Vec3b a = original_image.at<Vec3b>(x,y);
+            a[0] = (a[0]>>bits); 
+            a[1] = (a[1]>>bits);
+            a[2] = (a[2]>>bits);
+            reduce_img.at<Vec3b>(x,y) = a;
+        }
+    }
+}
+
+void resetBits(int bits, Mat &result){
+    for(int y=0; y<result.cols; y++){
+        for(int x=0; x<result.rows; x++){
+            Vec3b a = result.at<Vec3b>(x,y);
+            a[0] = (a[0]<<bits); 
+            a[1] = (a[1]<<bits);
+            a[2] = (a[2]<<bits);
+            result.at<Vec3b>(x,y) = a;
+        }
+    }
+}
+
 int main(int argc, char** argv){
 
     std::ofstream clear_f;
@@ -156,6 +182,11 @@ int main(int argc, char** argv){
     clear_f.close();
 
     original_image = imread(argv[1],IMREAD_COLOR);
+
+    reduce_img = Mat::zeros(Size(original_image.cols,original_image.rows),CV_8UC3);
+    int bits = atoi(argv[3]);
+    reduceBits(bits,reduce_img);
+
     BGRtoYUV420();
     pred_y = Mat::zeros(y.rows, y.cols,CV_8U);
     predictorJPEGls(y,pred_y);
@@ -180,11 +211,14 @@ int main(int argc, char** argv){
     resultYUV = Mat::zeros(converted_image.rows, converted_image.cols,CV_8U);
     YUV420toBGR();
 
+    resetBits(bits, result);
+
     // imshow("r_y",desp_y);
     // imshow("r_cb",desp_cb);
     // imshow("r_cr",desp_cr);
     imshow("original2YUV", converted_image);
     imshow("Original", original_image);
+    imshow("reduced",reduce_img);
     imshow("resultYUV",resultYUV);
     imshow("result",result);
 
